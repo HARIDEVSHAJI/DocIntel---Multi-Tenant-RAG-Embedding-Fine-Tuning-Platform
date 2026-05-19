@@ -13,6 +13,17 @@ from schemas.requests_responses import KeySaveRequest, KeyToggleRequest, KeyTest
 
 router = APIRouter(prefix="/api", tags=["config"])
 
+@router.get("/config/db-status")
+def get_db_status():
+    try:
+        from db.database import engine
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        return {"online": True, "message": "Database is online"}
+    except Exception as e:
+        return {"online": False, "message": str(e)}
+
 @router.get("/config/key-status")
 def get_key_status(workspace_id: int, user: User = Depends(get_current_user)):
     db = SessionLocal()

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getStats, updateConfig, deleteModel, resetWorkspace, validateKey, getWorkspaces, deleteWorkspaceById, getKeyStatus, saveManualKey, clearManualKey, toggleKeyMode, testKeyConnection } from '../api/client'
+import { getStats, updateConfig, deleteModel, resetWorkspace, validateKey, getWorkspaces, deleteWorkspaceById, getKeyStatus, saveManualKey, clearManualKey, toggleKeyMode, testKeyConnection, getDbStatus } from '../api/client'
 import { useAuth } from '../context/AuthContext'
 import { PageHeader, StatCard, Spinner } from '../components/ui'
 import { Settings, Trash2, RefreshCw, RotateCcw, AlertTriangle, Zap, Clock, FolderX, AlertCircle, Key, Eye, EyeOff, Lock, CheckCircle2, ShieldCheck } from 'lucide-react'
@@ -46,6 +46,11 @@ export default function Config({ keyStatus, onRecheckGroqKey }) {
       if (d.config) setCfg(d.config)
     }).catch(() => toast.error('Could not load stats'))
 
+  const [dbStatus, setDbStatus] = useState(null)
+  const loadDbStatus = () => {
+    getDbStatus().then(res => setDbStatus(res.online)).catch(() => setDbStatus(false))
+  }
+
   const loadKeyStatus = () => {
     if (activeWorkspaceId) {
       getKeyStatus().then(setCustomKeyStatus).catch(err => console.error("Failed to load key status", err))
@@ -55,6 +60,7 @@ export default function Config({ keyStatus, onRecheckGroqKey }) {
   useEffect(() => { loadStats() }, [])
   useEffect(() => { getWorkspaces().then(setWorkspaces).catch(() => {}) }, [])
   useEffect(() => { loadKeyStatus() }, [activeWorkspaceId])
+  useEffect(() => { loadDbStatus() }, [])
 
   const handleSave = async () => {
     setSaving(true)
@@ -182,9 +188,15 @@ export default function Config({ keyStatus, onRecheckGroqKey }) {
     <div className="p-8 max-w-5xl mx-auto">
       <div className="h-24 shrink-0" />
       <PageHeader title="Config & System" subtitle="Adjust pipeline parameters and manage the workspace">
-        <button onClick={loadStats} className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5">
-          <RefreshCw size={12} /> Refresh
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#000000] border border-[#2a2a2a] rounded-lg text-xs" title="Database Connection Status">
+            <div className={`w-2 h-2 rounded-full ${dbStatus === null ? 'bg-gray-500 animate-pulse' : dbStatus ? 'bg-emerald-500' : 'bg-red-500'}`} />
+            <span className="text-gray-300">DB: {dbStatus === null ? 'Checking...' : dbStatus ? 'Online' : 'Offline'}</span>
+          </div>
+          <button onClick={() => { loadStats(); loadDbStatus(); }} className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5">
+            <RefreshCw size={12} /> Refresh
+          </button>
+        </div>
       </PageHeader>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

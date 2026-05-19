@@ -42,6 +42,7 @@ export const getCurrentUser = () => api.get('/auth/me').then(r => r.data)
 
 // ── Health / Config ──────────────────────────────────────────────────────────
 export const getHealth  = () => api.get('/health').then(r => r.data)
+export const getDbStatus = () => api.get('/config/db-status').then(r => r.data)
 export const getStats   = () => api.get('/stats').then(r => r.data)
 export const getConfig  = () => api.get('/config').then(r => r.data)
 export const validateKey = () => api.get('/validate-key').then(r => r.data)
