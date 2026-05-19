@@ -117,6 +117,10 @@ if STATIC_DIR.exists():
 
     @app.get("/{full_path:path}")
     async def serve_react(full_path: str):
+        # Never intercept API routes — let FastAPI routers handle them
+        if full_path.startswith("api/") or full_path.startswith("api"):
+            from fastapi.responses import JSONResponse
+            return JSONResponse(status_code=404, content={"detail": "Not found"})
         # Serve the requested file if it exists (for favicon, manifest, etc.)
         requested = STATIC_DIR / full_path
         if full_path and requested.exists() and requested.is_file():
