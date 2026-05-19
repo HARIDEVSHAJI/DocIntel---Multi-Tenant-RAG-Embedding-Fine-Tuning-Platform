@@ -16,6 +16,10 @@ SQLALCHEMY_DATABASE_URL = os.getenv(
     "sqlite:///./rag_database.db"
 )
 
+# Fix for Aiven / older URLs: SQLAlchemy 1.4+ removed support for "postgres://"
+if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # ── Build engine kwargs based on database type ────────────────────────────────
 _is_sqlite = "sqlite" in SQLALCHEMY_DATABASE_URL
 
