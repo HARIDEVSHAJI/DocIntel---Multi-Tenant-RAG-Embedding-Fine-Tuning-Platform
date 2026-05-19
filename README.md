@@ -9,7 +9,7 @@ app_port: 7860
 
 # 🧠 Document Intelligence Platform
 
-> A production-grade RAG (Retrieval-Augmented Generation) system with a React + Tailwind dark UI, FastAPI backend, fine-tunable deep learning embeddings, hybrid retrieval, and NLI-based hallucination detection.
+> A production-grade RAG (Retrieval-Augmented Generation) system featuring a React + Tailwind dark UI, FastAPI backend, fine-tunable deep learning embeddings, hybrid retrieval, and NLI-based hallucination detection.
 
 ## Features
 
