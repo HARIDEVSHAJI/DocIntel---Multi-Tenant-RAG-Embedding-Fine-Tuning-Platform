@@ -37,7 +37,7 @@ COPY backend/ ./backend/
 COPY data/ ./data/
 
 # Copy built React frontend into backend/static (FastAPI serves it)
-COPY --from=frontend-builder /frontend/dist ./backend/static
+COPY --from=frontend-builder /backend/static ./backend/static
 
 # Create models directory (ephemeral — fine-tuned models are in DB)
 RUN mkdir -p /app/models
