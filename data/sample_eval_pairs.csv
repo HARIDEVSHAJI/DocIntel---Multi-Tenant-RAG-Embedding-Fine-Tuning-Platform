@@ -1,0 +1,6 @@
+question,ground_truth
+What is retrieval augmented generation?,Retrieval-Augmented Generation (RAG) combines information retrieval with text generation to produce accurate answers grounded in external documents.
+What is the attention mechanism in transformers?,The attention mechanism allows the model to focus on relevant parts of the input. Self-attention in transformers computes relationships between all positions in a sequence simultaneously.
+What is the difference between fine-tuning and pre-training?,Pre-training involves training a model from scratch on a large general corpus. Fine-tuning continues training a pre-trained model on a smaller task-specific dataset.
+What is FAISS used for?,FAISS is used for efficient similarity search and clustering of dense vectors. It enables fast nearest-neighbor search for applications like semantic search and recommendation systems.
+What causes hallucination in language models?,Hallucination occurs when language models generate factually incorrect content not supported by training data or provided context. It happens due to the model over-relying on its parametric knowledge rather than grounded information.

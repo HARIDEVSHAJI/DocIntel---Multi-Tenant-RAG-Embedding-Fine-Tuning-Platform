@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    # We use ankane/pgvector which includes PostgreSQL + pgvector extension pre-installed
+    image: ankane/pgvector:latest
+    container_name: rag_postgres_db
+    environment:
+      POSTGRES_USER: docintel_user
+      POSTGRES_PASSWORD: secure_password_123
+      POSTGRES_DB: docintel_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
