@@ -45,3 +45,7 @@ Thumbs.db
 .cursor/
 .vscode/
 .idea/
+
+# ── Study Guides (CV Prep) ────────────────
+*study_guide.md
+
